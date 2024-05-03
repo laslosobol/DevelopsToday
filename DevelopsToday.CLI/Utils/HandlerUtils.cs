@@ -62,7 +62,7 @@ public static class HandlerUtils
 
     private static void Validate(CsvReader csv, EtlRecord record)
     {
-        if (csv.TryGetField<DateTime?>("tpep_pickup_datetime", out var pickupDateTime))
+        if (csv.TryGetField<DateTime>("tpep_pickup_datetime", out var pickupDateTime))
         {
             record.TpepPickupDatetime = TimeZoneInfo.ConvertTimeToUtc(
                 (DateTime)pickupDateTime!,
@@ -73,7 +73,7 @@ public static class HandlerUtils
             throw new ArgumentNullException($"TpepPickupDatetime can not be null.");
         }
 
-        if (csv.TryGetField<DateTime?>("tpep_dropoff_datetime", out var dropoffDateTime))
+        if (csv.TryGetField<DateTime>("tpep_dropoff_datetime", out var dropoffDateTime))
         {
             record.TpepDropoffDatetime = TimeZoneInfo.ConvertTimeToUtc(
                 (DateTime)dropoffDateTime!,
@@ -84,13 +84,13 @@ public static class HandlerUtils
             throw new ArgumentNullException($"TpepDropoffDatetime can not be null.");
         }
 
-        if (csv.TryGetField<int?>("passenger_count", out var passengerCount))
+        if (csv.TryGetField<int>("passenger_count", out var passengerCount))
         {
             record.PassengerCount = (int)passengerCount!;
         }
         else
         {
-            throw new ArgumentNullException($"PassengerCount can not be null.");
+            record.PassengerCount = 0;
         }
     }
 }

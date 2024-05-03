@@ -1,8 +1,4 @@
 ﻿using System.CommandLine;
-using System.Globalization;
-using CsvHelper;
-using CsvHelper.Configuration;
-using DevelopsToday.CLI.ETL;
 using DevelopsToday.CLI.Utils;
 
 var csvFilePath = new Option<string>(
