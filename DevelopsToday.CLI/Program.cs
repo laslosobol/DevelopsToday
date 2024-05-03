@@ -12,10 +12,8 @@ var rootCommand = new RootCommand("ETL project for importing CSV data into SQL S
 const string connectionString =
     "Server=localhost;Database=DevelopsToday;Trusted_Connection=True;Encrypt=True;TrustServerCertificate=True;";
 
-rootCommand.SetHandler(async (csvFilePath) =>
-{
-    await HandlerUtils.Handle(csvFilePath, connectionString);
-}, csvFilePath);
+rootCommand.SetHandler(async (csvFilePath) => { await HandlerUtils.Handle(csvFilePath, connectionString); },
+    csvFilePath);
 await rootCommand.InvokeAsync(args);
 
 //dotnet run --project "C:\Users\sobol\RiderProjects\DevelopsToday\DevelopsToday.CLI\DevelopsToday.CLI.csproj" --csvFilePath "C:\Users\sobol\RiderProjects\DevelopsToday\DevelopsToday.CLI\Utils\sample-cab-data.csv""

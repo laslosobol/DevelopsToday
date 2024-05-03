@@ -21,7 +21,7 @@ public static class HandlerUtils
         while (await csv.ReadAsync())
         {
             var record = new EtlRecord();
-            
+
             Validate(csv, record);
 
             record.TripDistance = csv.GetField<float?>("trip_distance");
@@ -65,7 +65,7 @@ public static class HandlerUtils
         if (csv.TryGetField<DateTime>("tpep_pickup_datetime", out var pickupDateTime))
         {
             record.TpepPickupDatetime = TimeZoneInfo.ConvertTimeToUtc(
-                (DateTime)pickupDateTime!,
+                pickupDateTime,
                 TimeZoneInfo.FindSystemTimeZoneById("Eastern Standard Time"));
         }
         else
@@ -76,7 +76,7 @@ public static class HandlerUtils
         if (csv.TryGetField<DateTime>("tpep_dropoff_datetime", out var dropoffDateTime))
         {
             record.TpepDropoffDatetime = TimeZoneInfo.ConvertTimeToUtc(
-                (DateTime)dropoffDateTime!,
+                dropoffDateTime,
                 TimeZoneInfo.FindSystemTimeZoneById("Eastern Standard Time"));
         }
         else
@@ -84,13 +84,6 @@ public static class HandlerUtils
             throw new ArgumentNullException($"TpepDropoffDatetime can not be null.");
         }
 
-        if (csv.TryGetField<int>("passenger_count", out var passengerCount))
-        {
-            record.PassengerCount = (int)passengerCount!;
-        }
-        else
-        {
-            record.PassengerCount = 0;
-        }
+        record.PassengerCount = csv.TryGetField<int>("passenger_count", out var passengerCount) ? passengerCount : 0;
     }
 }
