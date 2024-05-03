@@ -16,5 +16,6 @@ rootCommand.SetHandler(async (csvFilePath) => { await HandlerUtils.Handle(csvFil
     csvFilePath);
 await rootCommand.InvokeAsync(args);
 
-//dotnet run --project "C:\Users\sobol\RiderProjects\DevelopsToday\DevelopsToday.CLI\DevelopsToday.CLI.csproj" --csvFilePath "C:\Users\sobol\RiderProjects\DevelopsToday\DevelopsToday.CLI\Utils\sample-cab-data.csv""
+//dotnet run --project "C:\Users\sobol\RiderProjects\DevelopsToday\DevelopsToday.CLI\DevelopsToday.CLI.csproj" --csvFilePath "*Your File Path*"
+// Result: 29889 records is DB
 record Key(DateTime? tpep_pickup_datetime, DateTime? tpep_dropoff_datetime, int? passenger_count);
