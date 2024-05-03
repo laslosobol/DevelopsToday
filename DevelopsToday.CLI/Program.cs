@@ -24,15 +24,15 @@ rootCommand.SetHandler(async (csvFilePath) =>
     using var reader = new StreamReader(csvFilePath);
     using var csv = new CsvReader(reader, new CsvConfiguration(CultureInfo.InvariantCulture));
 
-    csv.Read();
+    await csv.ReadAsync();
     csv.ReadHeader();
-    while (csv.Read())
+    while (await csv.ReadAsync())
     {
         var record = new EtlRecord();
-        if (csv.GetField<DateTime?>("tpep_pickup_datetime").HasValue)
+        if (csv.TryGetField<DateTime?>("tpep_pickup_datetime", out var pickupDateTime))
         {
             record.TpepPickupDatetime = TimeZoneInfo.ConvertTimeToUtc(
-                (DateTime)csv.GetField<DateTime?>("tpep_pickup_datetime")!,
+                (DateTime)pickupDateTime!,
                 TimeZoneInfo.FindSystemTimeZoneById("Eastern Standard Time"));
         }
         else
@@ -40,10 +40,10 @@ rootCommand.SetHandler(async (csvFilePath) =>
             throw new ArgumentNullException($"TpepPickupDatetime can not be null.");
         }
 
-        if (csv.GetField<DateTime?>("tpep_dropoff_datetime").HasValue)
+        if (csv.TryGetField<DateTime?>("tpep_dropoff_datetime", out var dropoffDateTime))
         {
             record.TpepDropoffDatetime = TimeZoneInfo.ConvertTimeToUtc(
-                (DateTime)csv.GetField<DateTime?>("tpep_dropoff_datetime")!,
+                (DateTime)dropoffDateTime!,
                 TimeZoneInfo.FindSystemTimeZoneById("Eastern Standard Time"));
         }
         else
@@ -51,9 +51,9 @@ rootCommand.SetHandler(async (csvFilePath) =>
             throw new ArgumentNullException($"TpepDropoffDatetime can not be null.");
         }
 
-        if (csv.GetField<int?>("passenger_count").HasValue)
+        if (csv.TryGetField<int?>("passenger_count", out var passangerCount))
         {
-            record.PassengerCount = (int)csv.GetField<int?>("passenger_count")!;
+            record.PassengerCount = (int)passangerCount!;
         }
         else
         {
