@@ -16,6 +16,11 @@ rootCommand.SetHandler(async (csvFilePath) => { await HandlerUtils.Handle(csvFil
     csvFilePath);
 await rootCommand.InvokeAsync(args);
 
-//dotnet run --project "C:\Users\sobol\RiderProjects\DevelopsToday\DevelopsToday.CLI\DevelopsToday.CLI.csproj" --csvFilePath "*Your File Path*"
-// Result: 29889 records is DB
+//dotnet run --project "*Your Project Path*" --csvFilePath "*Your File Path*"
+// Result: 29889 records in DB
+/*
+ * 9. Assume your program will be used on much larger data files. Describe in a few sentences what you would change if you knew it would be used for a 10GB CSV input file.
+ * Batch Processing: Process the data in batches to avoid loading the entire file into memory at once. This can help manage memory usage and improve performance.
+ * Implement logging and monitoring to track the progress of the data processing and identify any issues or bottlenecks.
+ */
 record Key(DateTime? tpep_pickup_datetime, DateTime? tpep_dropoff_datetime, int? passenger_count);
